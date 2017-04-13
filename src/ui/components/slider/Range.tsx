@@ -1,0 +1,339 @@
+import * as React from 'react';
+import * as classNames from 'classnames';
+import * as warning from 'warning';
+import { pauseEvent } from '../../EventUtils';
+import { intVal, isValueOutOfRange, ensureValueInRange } from '../../../fn/Number';
+import { SliderBase, SliderBaseProps, SliderBaseState, RenderResult } from './SliderBase';
+import { Track } from './Track';
+
+interface RangeProps extends SliderBaseProps {
+    defaultValue?: number,
+    value?: number,
+    count?: number,
+    pushable?: boolean | number,
+    allowCross?: boolean,
+}
+
+interface RangeState extends SliderBaseState {
+    handle: any,
+    recent: number,
+    bounds: any,
+}
+
+export class Range extends SliderBase<RangeProps, RangeState> {
+    static displayName = 'Range'; 
+
+    static defaultProps: RangeProps = {
+        ...SliderBase.defaultProps,
+        count: 1,
+        allowCross: true,
+        pushable: false,
+    }
+
+    private _getPointsCache;
+
+    constructor(props: RangeProps) {
+        super(props);
+
+        const { count, min, max } = props;
+        const initialValue = Array.apply(null, Array(count + 1)).map(() => min);
+        const defaultValue = 'defaultValue' in props ? props.defaultValue : initialValue;
+        const value = props.value !== undefined ? props.value : defaultValue;
+        const bounds = value.map(v => this.trimAlignValue(v));
+        const recent = bounds[0] === max ? 0 : bounds.length - 1;
+
+        this.state = {
+            handle: null,
+            recent,
+            bounds,
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!('value' in nextProps || 'min' in nextProps || 'max' in nextProps)) return;
+
+        const { bounds } = this.state;
+        const value = nextProps.value || bounds;
+        const nextBounds = value.map(v => this.trimAlignValue(v, nextProps));
+        if (nextBounds.every((v, i) => v === bounds[i])) return;
+
+        this.setState({ 
+            ...this.state,
+            bounds: nextBounds 
+        });
+
+        if (bounds.some(v => isValueOutOfRange(v, nextProps.min, nextProps.max))) {
+            this.props.onChange(nextBounds);
+        }
+    }
+
+    onChange = (state): void => {
+        const props = this.props;
+        const isNotControlled = !('value' in props);
+        if (isNotControlled) {
+            this.setState(state);
+        } else if (state.handle !== undefined) {
+            this.setState({ 
+                ...this.state,
+                handle: state.handle 
+            });
+        }
+
+        const data = { ...this.state, ...state };
+        const changedValue = data.bounds;
+        props.onChange(changedValue);
+    }
+
+    onStart = (position): void => {
+        const props = this.props;
+        const state = this.state;
+        const bounds = this.getValue();
+        props.onBeforeChange(bounds);
+
+        const value = this.calcValueByPos(position);
+        //this.startValue = value;
+        //this.startPosition = position;
+
+        const closestBound = this.getClosestBound(value);
+        const boundNeedMoving = this.getBoundNeedMoving(value, closestBound);
+
+        this.setState({
+            ...this.state,
+            handle: boundNeedMoving,
+            recent: boundNeedMoving,
+        });
+
+        const prevValue = bounds[boundNeedMoving];
+        if (value === prevValue) return;
+
+        const nextBounds = [...state.bounds];
+        nextBounds[boundNeedMoving] = value;
+        this.onChange({ bounds: nextBounds });
+    }
+
+    onEnd = () => {
+        this.setState({ 
+            ...this.state,
+            handle: null 
+        });
+
+        this.removeDocumentEvents();
+        this.props.onAfterChange(this.getValue());
+    }
+
+    onMove = (e, position): void => {
+        pauseEvent(e);
+        const props = this.props;
+        const state = this.state;
+
+        const value = this.calcValueByPos(position);
+        const oldValue = state.bounds[state.handle];
+        if (value === oldValue) return;
+
+        const nextBounds = [...state.bounds];
+        nextBounds[state.handle] = value;
+        let nextHandle = state.handle;
+        if (props.pushable !== false) {
+            const originalValue = state.bounds[nextHandle];
+            this.pushSurroundingHandles(nextBounds, nextHandle, originalValue);
+        } else if (props.allowCross) {
+            nextBounds.sort((a, b) => a - b);
+            nextHandle = nextBounds.indexOf(value);
+        }
+        this.onChange({
+            handle: nextHandle,
+            bounds: nextBounds,
+        });
+    }
+
+    getValue() {
+        return this.state.bounds;
+    }
+
+    getClosestBound(value) {
+        const { bounds } = this.state;
+        let closestBound = 0;
+        for (let i = 1; i < bounds.length - 1; ++i) {
+            if (value > bounds[i]) { 
+                closestBound = i; 
+            }
+        }
+        if (Math.abs(bounds[closestBound + 1] - value) < Math.abs(bounds[closestBound] - value)) {
+            closestBound = closestBound + 1;
+        }
+
+        return closestBound;
+    }
+
+    getBoundNeedMoving(value, closestBound) {
+        const { bounds, recent } = this.state;
+        let boundNeedMoving = closestBound;
+        const isAtTheSamePoint = (bounds[closestBound + 1] === bounds[closestBound]);
+        if (isAtTheSamePoint) {
+            boundNeedMoving = recent;
+        }
+
+        if (isAtTheSamePoint && (value !== bounds[closestBound + 1])) {
+            boundNeedMoving = value < bounds[closestBound + 1] ? closestBound : closestBound + 1;
+        }
+
+        return boundNeedMoving;
+    }
+
+    getLowerBound() {
+        return this.state.bounds[0];
+    }
+
+    getUpperBound() {
+        const { bounds } = this.state;
+        return bounds[bounds.length - 1];
+    }
+
+    /**
+     * Returns an array of possible slider points, taking into account both
+     * `marks` and `step`. The result is cached.
+     */
+    getPoints() {
+        const { marks, step, min, max } = this.props;
+        const cache = this._getPointsCache;
+        if (!cache || cache.marks !== marks || cache.step !== step) {
+        const pointsObject = { ...marks };
+        if (step !== null) {
+            for (let point = min; point <= max; point += step) {
+            pointsObject[point] = point;
+            }
+        }
+        const points = Object.keys(pointsObject).map(parseFloat);
+        points.sort((a, b) => a - b);
+            this._getPointsCache = { marks, step, points };
+        }
+
+        return this._getPointsCache.points;
+    }
+
+    pushSurroundingHandles(bounds, handle, originalValue) {
+        const { pushable } = this.props;
+        const value = bounds[handle];
+        const threshold: number = pushable ? intVal(pushable) : 0;
+
+        let direction = 0;
+        if (bounds[handle + 1] - value < threshold) {
+            direction = +1; // push to right
+        }
+
+        if (value - bounds[handle - 1] < threshold) {
+            direction = -1; // push to left
+        }
+
+        if (direction === 0) { return; }
+
+        const nextHandle = handle + direction;
+        const diffToNext = direction * (bounds[nextHandle] - value);
+        if (!this.pushHandle(bounds, nextHandle, direction, threshold - diffToNext)) {
+        // revert to original value if pushing is impossible
+            bounds[handle] = originalValue;
+        }
+    }
+
+    pushHandle(bounds, handle, direction, amount) {
+        const originalValue = bounds[handle];
+        let currentValue = bounds[handle];
+        while (direction * (currentValue - originalValue) < amount) {
+            if (!this.pushHandleOnePoint(bounds, handle, direction)) {
+                // can't push handle enough to create the needed `amount` gap, so we
+                // revert its position to the original value
+                bounds[handle] = originalValue;
+                return false;
+            }
+
+            currentValue = bounds[handle];
+        }
+        // the handle was pushed enough to create the needed `amount` gap
+        return true;
+    }
+
+    pushHandleOnePoint(bounds, handle, direction) {
+        const points = this.getPoints();
+        const pointIndex = points.indexOf(bounds[handle]);
+        const nextPointIndex = pointIndex + direction;
+        if (nextPointIndex >= points.length || nextPointIndex < 0) {
+            // reached the minimum or maximum available point, can't push anymore
+            return false;
+        }
+        const nextHandle = handle + direction;
+        const nextValue = points[nextPointIndex];
+        const { pushable } = this.props;
+        const threshold: number = pushable ? intVal(pushable) : 0;
+        
+        const diffToNext = direction * (bounds[nextHandle] - nextValue);
+        if (!this.pushHandle(bounds, nextHandle, direction, threshold - diffToNext)) {
+            // couldn't push next handle, so we won't push this one either
+            return false;
+        }
+        // push the handle
+        bounds[handle] = nextValue;
+        return true;
+    }
+
+    trimAlignValue(v, nextProps = {}) {
+        const mergedProps = { ...this.props, ...nextProps };
+        const valInRange = ensureValueInRange(v, mergedProps.min, mergedProps.max);
+        const valNotConflict = this.ensureValueNotConflict(valInRange, mergedProps.allowCross);
+        return this.ensureValuePrecision(valNotConflict, mergedProps);
+    }
+
+    ensureValueNotConflict(val, allowCross?: boolean) {
+        const { handle, bounds } = this.state;
+        /* eslint-disable eqeqeq */
+        if (!allowCross && handle != null) {
+            if (handle > 0 && val <= bounds[handle - 1]) {
+                return bounds[handle - 1];
+            }
+
+            if (handle < bounds.length - 1 && val >= bounds[handle + 1]) {
+                return bounds[handle + 1];
+            }
+        }
+        /* eslint-enable eqeqeq */
+        return val;
+    }
+
+    renderInternal(): RenderResult
+    {
+        const { handle, bounds } = this.state;
+        const { prefixCls, vertical, included, handle: handleGenerator, } = this.props;
+        const offsets = bounds.map(v => this.calcOffset(v));
+
+        const handleClassName = `${prefixCls}-handle`;
+        const handles = bounds.map((v, i) => handleGenerator({
+            className: classNames({
+                [handleClassName]: true,
+                [`${handleClassName}-${i + 1}`]: true,
+            }),
+            vertical,
+            offset: offsets[i],
+            value: v,
+            dragging: handle === i,
+            index: i,
+            ref: h => this.saveHandle(i, h),
+        }));
+
+        const tracks = bounds.slice(0, -1).map((_, index) => {
+            const i = index + 1;
+            const trackClassName = classNames({
+                [`${prefixCls}-track`]: true,
+                [`${prefixCls}-track-${i}`]: true,
+            });
+            return (
+                <Track className={trackClassName}
+                    vertical={vertical}
+                    included={included}
+                    offset={offsets[i - 1]}
+                    length={offsets[i] - offsets[i - 1]}
+                    key={i} />
+            );
+        });
+
+        return { tracks, handles };
+    }
+}
