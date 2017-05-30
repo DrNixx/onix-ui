@@ -2,22 +2,22 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import * as warning from 'warning';
 import { pauseEvent } from '../../EventUtils';
-import { intVal, isValueOutOfRange, ensureValueInRange } from '../../../fn/Number';
+import { intVal, isValueOutOfRange, ensureValueInRange } from 'onix-core/built/fn/number/index';
 import { SliderBase, SliderBaseProps, SliderBaseState, RenderResult } from './SliderBase';
 import { Track } from './Track';
 
-interface RangeProps extends SliderBaseProps {
-    defaultValue?: number,
-    value?: number,
+export interface RangeProps extends SliderBaseProps {
+    defaultValue?: number[],
+    value?: number[],
     count?: number,
     pushable?: boolean | number,
     allowCross?: boolean,
 }
 
-interface RangeState extends SliderBaseState {
+export interface RangeState extends SliderBaseState {
     handle: any,
     recent: number,
-    bounds: any,
+    bounds: number[],
 }
 
 export class Range extends SliderBase<RangeProps, RangeState> {

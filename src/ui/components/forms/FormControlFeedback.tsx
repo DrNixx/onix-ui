@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { PropTypes } from 'prop-types';
 import * as classNames from 'classnames';
 import { Icon } from '../Icon';
 
-interface FormControlFeedbackProps {
+export interface FormControlFeedbackProps {
     className?: string,
     style?: React.CSSProperties,
     bsRole?: string, 
@@ -14,7 +15,7 @@ export class FormControlFeedback extends React.Component<FormControlFeedbackProp
     }
 
     static contextTypes = {
-        $bs_formGroup: React.PropTypes.object,
+        $bs_formGroup: PropTypes.object,
     };
 
     constructor(props: FormControlFeedbackProps, context?) {

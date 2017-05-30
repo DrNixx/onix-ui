@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 
-interface FormControlStaticProps {
+export interface FormControlStaticProps {
     className?: string,
     style?: React.CSSProperties,
 }

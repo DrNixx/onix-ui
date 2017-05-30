@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { PropTypes } from 'prop-types';
 import * as classNames from 'classnames';
 
-interface FormGroupProps {
+export interface FormGroupProps {
     className?: string,
     style?: React.CSSProperties,
     controlId?: string,
@@ -10,7 +11,7 @@ interface FormGroupProps {
 
 export class FormGroup extends React.Component<FormGroupProps, {}> {
     private static childContextTypes = {
-        $bs_formGroup: React.PropTypes.object.isRequired,
+        $bs_formGroup: PropTypes.object.isRequired,
     }
 
     constructor(props: FormGroupProps, context?) {

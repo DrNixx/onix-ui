@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { SIZE_MAP, StateType, StyleType } from '../StyleConfig';
 import { Icon } from '../Icon';
 
-interface InputGroupAddonProps extends React.HTMLProps<HTMLSpanElement>   {
+export interface InputGroupAddonProps extends React.HTMLProps<HTMLSpanElement>   {
     className?: string,
     style?: React.CSSProperties,
     state?: StateType | StyleType,
@@ -22,7 +22,7 @@ export class InputGroupAddon extends React.Component<InputGroupAddonProps, {}> {
     }
 
     render() {
-        const { className, state, arrow, glyph, ...elementProps } = this.props;
+        const { className, state, arrow, glyph, children, ...elementProps } = this.props;
 
         const classes = {
             [`${state}`]: !!state,

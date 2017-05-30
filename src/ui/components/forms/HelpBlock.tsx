@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 
-interface HelpBlockProps   {
+export interface HelpBlockProps   {
     className?: string,
     style?: React.CSSProperties,
 }

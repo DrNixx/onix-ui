@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { PropTypes } from 'prop-types';
 import * as classNames from 'classnames';
 import { TabContextType } from './ContextTypes';
 
@@ -29,22 +30,22 @@ export class TabContent extends React.Component<TabContentProps, TabContentState
     private isUnmounted = false;
 
     private static contextTypes = {
-        $bs_tabContainer: React.PropTypes.shape({
-            activeKey: React.PropTypes.any,
+        $bs_tabContainer: PropTypes.shape({
+            activeKey: PropTypes.any,
         }),
     }
 
     private static childContextTypes = {
-        $bs_tabContent: React.PropTypes.shape({
-            bsClass: React.PropTypes.string,
-            animation: React.PropTypes.oneOfType([
-                React.PropTypes.bool, React.PropTypes.element,
+        $bs_tabContent: PropTypes.shape({
+            bsClass: PropTypes.string,
+            animation: PropTypes.oneOfType([
+                PropTypes.bool, PropTypes.element,
             ]),
-            activeKey: React.PropTypes.any,
-            unmountOnExit: React.PropTypes.bool,
-            onPaneEnter: React.PropTypes.func.isRequired,
-            onPaneExited: React.PropTypes.func.isRequired,
-            exiting: React.PropTypes.bool.isRequired,
+            activeKey: PropTypes.any,
+            unmountOnExit: PropTypes.bool,
+            onPaneEnter: PropTypes.func.isRequired,
+            onPaneExited: PropTypes.func.isRequired,
+            exiting: PropTypes.bool.isRequired,
         }),
     }
 
@@ -145,13 +146,11 @@ export class TabContent extends React.Component<TabContentProps, TabContentState
 
     render() {
         const { componentClass: Component, className, ...props } = this.props;
-        
-        delete props.animation;
-        delete props.unmountOnExit;
+        const { animation, unmountOnExit, ...otherProps } = props;
 
         return (
             <Component
-                {...props}
+                {...otherProps}
                 className={classNames(className, 'tab-content')}
             />
         );

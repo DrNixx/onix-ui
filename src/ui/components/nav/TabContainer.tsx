@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { PropTypes } from 'prop-types';
 import * as classNames from 'classnames';
 import { TabContextType, TabSelectHandler } from './ContextTypes';
 
@@ -46,11 +47,11 @@ interface TabContainerState {
 
 export class TabContainer extends React.Component<TabContainerProps, TabContainerState> {
     private static childContextTypes = {
-        $bs_tabContainer: React.PropTypes.shape({
-            activeKey: React.PropTypes.any,
-            onSelect: React.PropTypes.func.isRequired,
-            getTabId: React.PropTypes.func.isRequired,
-            getPaneId: React.PropTypes.func.isRequired,
+        $bs_tabContainer: PropTypes.shape({
+            activeKey: PropTypes.any,
+            onSelect: PropTypes.func.isRequired,
+            getTabId: PropTypes.func.isRequired,
+            getPaneId: PropTypes.func.isRequired,
         }),
     }
 
@@ -101,11 +102,8 @@ export class TabContainer extends React.Component<TabContainerProps, TabContaine
 
     render() {
         const { children, ...props } = this.props;
+        const { generateChildId, onSelect, activeKey, ...otherProps } = props;
 
-        delete props.generateChildId;
-        delete props.onSelect;
-        delete props.activeKey;
-
-        return React.cloneElement(React.Children.only(children), props);
+        return React.cloneElement(React.Children.only(children), otherProps);
     }
 }

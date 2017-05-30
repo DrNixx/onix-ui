@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 
-interface InputGroupButtonProps   {
+export interface InputGroupButtonProps   {
     className?: string,
     style?: React.CSSProperties,
 }

@@ -1,17 +1,17 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { isValueOutOfRange, ensureValueInRange } from '../../../fn/Number';
+import { isValueOutOfRange, ensureValueInRange } from 'onix-core/built/fn/number/index';
 import { pauseEvent } from '../../EventUtils';
 import { SliderBase, SliderBaseProps, SliderBaseState, RenderResult } from './SliderBase';
 import { Track } from './Track';
 import { Handle } from './Handle';
 
-interface SliderProps extends SliderBaseProps {
+export interface SliderProps extends SliderBaseProps {
     defaultValue?: number,
     value?: number,
 }
 
-interface SliderState extends SliderBaseState {
+export interface SliderState extends SliderBaseState {
     value: number,
     dragging: boolean,
 }

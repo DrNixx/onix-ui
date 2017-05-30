@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { DEVICE_SIZES } from './StyleConfig';
 
-interface ColProps  {
+export interface ColProps  {
     className?: string,
     style?: React.CSSProperties,
     componentClass?: React.ReactType,

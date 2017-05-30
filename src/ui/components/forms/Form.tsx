@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 
-interface FormProps extends React.HTMLProps<HTMLFormElement>  {
+export interface FormProps extends React.HTMLProps<HTMLFormElement>  {
     horizontal: boolean,
     inline: boolean,
 }

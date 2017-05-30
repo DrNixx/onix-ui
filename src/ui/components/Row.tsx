@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 
-interface RowProps  {
+export interface RowProps  {
     className?: string,
     style?: React.CSSProperties,
     componentClass?: React.ReactType,

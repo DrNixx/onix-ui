@@ -7,11 +7,11 @@ import { InputGroupAddon } from './InputGroupAddon';
 import { FormControl, FormControlProps } from './FormControl';
 import { SIZE_MAP } from '../StyleConfig';
 
-interface TextWithCopyProps extends FormControlProps {
+export interface TextWithCopyProps extends FormControlProps {
     value?: string,
 }
 
-interface TextWithCopyState {
+export interface TextWithCopyState {
     className: string;
 }
 

@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { PropTypes } from 'prop-types';
 import * as classNames from 'classnames';
 import * as warning from 'warning';
 import { TabContextType } from './ContextTypes';
 import { TabContent } from './TabContent';
 import { Fade } from '../../fx/Fade';
-import { createChainedFunction } from '../../Functions';
+import { createChainedFunction } from 'onix-core/built/fn/utils/index';
 
 export interface TabPaneProps {
     className?: string;
@@ -66,25 +67,25 @@ export class TabPane extends React.Component<TabPaneProps, {}> {
     private in: boolean;
 
     private static contextTypes = {
-        $bs_tabContainer: React.PropTypes.shape({
-            getId: React.PropTypes.func,
-            unmountOnExit: React.PropTypes.bool,
+        $bs_tabContainer: PropTypes.shape({
+            getId: PropTypes.func,
+            unmountOnExit: PropTypes.bool,
         }),
-        $bs_tabContent: React.PropTypes.shape({
-            bsClass: React.PropTypes.string,
-            animation: React.PropTypes.oneOfType([
-                React.PropTypes.bool, React.PropTypes.element,
+        $bs_tabContent: PropTypes.shape({
+            bsClass: PropTypes.string,
+            animation: PropTypes.oneOfType([
+                PropTypes.bool, PropTypes.element,
             ]),
-            activeKey: React.PropTypes.any,
-            unmountOnExit: React.PropTypes.bool,
-            onPaneEnter: React.PropTypes.func.isRequired,
-            onPaneExited: React.PropTypes.func.isRequired,
-            exiting: React.PropTypes.bool.isRequired,
+            activeKey: PropTypes.any,
+            unmountOnExit: PropTypes.bool,
+            onPaneEnter: PropTypes.func.isRequired,
+            onPaneExited: PropTypes.func.isRequired,
+            exiting: PropTypes.bool.isRequired,
         }),
     }
 
     private static childContextTypes = {
-        $bs_tabContainer: React.PropTypes.oneOf([null]),
+        $bs_tabContainer: PropTypes.oneOf([null]),
     }
 
     constructor(props: TabPaneProps, context: TabContextType) {

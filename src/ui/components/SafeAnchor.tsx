@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 
-interface SafeAnchorProps  {
+export interface SafeAnchorProps  {
     className?: string,
     style?: React.CSSProperties,
     href?: string,

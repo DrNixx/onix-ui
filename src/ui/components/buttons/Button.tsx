@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { SafeAnchor } from '../SafeAnchor';
 import { DEVICE_SIZES, DeviceSizeType, StateType, StyleType } from '../StyleConfig';
 
-interface ButtonProps  {
+export interface ButtonProps  {
     componentClass?: React.ReactType,
     className?: string,
     style?: React.CSSProperties,

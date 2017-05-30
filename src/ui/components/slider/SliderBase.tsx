@@ -75,9 +75,8 @@ export abstract class SliderBase<P extends SliderBaseProps, S extends SliderBase
 
     private sliderRef: any;
 
-    constructor(props: SliderBaseProps) {
+    constructor(props: P) {
         super(props);
-
         if (process.env.NODE_ENV !== 'production') {
             const { step, max, min } = props;
             warning(
@@ -209,7 +208,7 @@ export abstract class SliderBase<P extends SliderBaseProps, S extends SliderBase
     }
 
     calcValue(offset) {
-        const { vertical, min, max } = this.props;
+        const { vertical, min, max } = this.props as SliderBaseProps;
         const ratio = Math.abs(Math.max(offset, 0) / this.getSliderLength());
         const value = vertical ? (1 - ratio) * (max - min) + min : ratio * (max - min) + min;
         return value;
@@ -222,7 +221,7 @@ export abstract class SliderBase<P extends SliderBaseProps, S extends SliderBase
     }
 
     calcOffset(value) {
-        const { min, max } = this.props;
+        const { min, max } = this.props as SliderBaseProps;
         const ratio = (value - min) / (max - min);
         return ratio * 100;
     }
@@ -259,9 +258,9 @@ export abstract class SliderBase<P extends SliderBaseProps, S extends SliderBase
             vertical,
             min,
             max,
-            children,
             style,
-        } = this.props;
+        } = this.props as SliderBaseProps;
+        const { children } = this.props;
         const { tracks, handles } = this.renderInternal();
 
         const sliderClassName = classNames({

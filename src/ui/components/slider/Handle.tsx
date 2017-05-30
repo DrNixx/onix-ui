@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 
-interface HandleProps {
+export interface HandleProps {
     className?: string,
     vertical?: boolean,
     offset?: number,

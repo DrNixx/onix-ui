@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { SIZE_MAP, StateType, StyleType } from '../StyleConfig';
 
-interface InputGroupProps   {
+export interface InputGroupProps   {
     className?: string,
     style?: React.CSSProperties,
     scale?: 'large' | 'small',

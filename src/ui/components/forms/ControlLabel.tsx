@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { PropTypes } from 'prop-types';
 import * as classNames from 'classnames';
 import * as warning from 'warning';
 
-interface ControlLabelProps   {
+export interface ControlLabelProps   {
     className?: string,
     style?: React.CSSProperties,
     htmlFor?: boolean,
@@ -15,7 +16,7 @@ export class ControlLabel extends React.Component<ControlLabelProps, {}> {
     }
 
     public static contextTypes = {
-        $bs_formGroup: React.PropTypes.object,
+        $bs_formGroup: PropTypes.object,
     };
 
     constructor(props: ControlLabelProps, context?) {

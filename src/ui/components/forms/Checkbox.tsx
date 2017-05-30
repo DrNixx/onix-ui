@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { StateType, StyleType } from '../StyleConfig';
 
 
-interface CheckboxProps extends React.HTMLProps<HTMLInputElement>   {
+export interface CheckboxProps extends React.HTMLProps<HTMLInputElement>   {
     circle?: boolean,
 
     state?: StateType | StyleType,

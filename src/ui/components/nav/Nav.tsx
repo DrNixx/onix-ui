@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { PropTypes } from 'prop-types';
 import * as classNames from 'classnames';
 import * as keycode from 'keycode';
 import * as warning from 'warning';
 import ElementChildren from '../ElementChildren';
-import { createChainedFunction } from '../../Functions';
+import { createChainedFunction } from 'onix-core/built/fn/utils/index';
 import { TabSelectHandler } from './ContextTypes';
 
 interface NavProps  {
@@ -81,16 +82,16 @@ export class Nav extends React.Component<NavProps, {}> {
     }
 
     private static contextTypes = {
-        $bs_navbar: React.PropTypes.shape({
-            bsClass: React.PropTypes.string,
-            onSelect: React.PropTypes.func,
+        $bs_navbar: PropTypes.shape({
+            bsClass: PropTypes.string,
+            onSelect: PropTypes.func,
         }),
 
-        $bs_tabContainer: React.PropTypes.shape({
-            activeKey: React.PropTypes.any,
-            onSelect: React.PropTypes.func.isRequired,
-            getTabId: React.PropTypes.func.isRequired,
-            getPaneId: React.PropTypes.func.isRequired,
+        $bs_tabContainer: PropTypes.shape({
+            activeKey: PropTypes.any,
+            onSelect: PropTypes.func.isRequired,
+            getTabId: PropTypes.func.isRequired,
+            getPaneId: PropTypes.func.isRequired,
         }),
     };
 
@@ -269,15 +270,16 @@ export class Nav extends React.Component<NavProps, {}> {
             pullLeft,
             className,
             children,
-            ...props
+            ...propsEx
         } = this.props;
 
         const tabContainer = this.context.$bs_tabContainer;
         const role = propsRole || (tabContainer ? 'tablist' : null);
 
         const { activeKey, activeHref } = this.getActiveProps();
-        delete props.activeKey; // Accessed via this.getActiveProps().
-        delete props.activeHref; // Accessed via this.getActiveProps().
+        const { activeKey: ak, activeHref: ar, ...props } = propsEx;
+        //delete props.activeKey; // Accessed via this.getActiveProps().
+        //delete props.activeHref; // Accessed via this.getActiveProps().
 
         const classes = {
             ['nav']: true,

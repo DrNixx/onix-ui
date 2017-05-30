@@ -12,3 +12,9 @@ export { InputGroup } from './components/forms/InputGroup';
 export { InputGroupAddon } from './components/forms/InputGroupAddon';
 export { InputGroupButton } from './components/forms/InputGroupButton';
 export { TextWithCopy } from './components/forms/TextWithCopy';
+
+export { Slider } from './components/slider/Slider';
+export { Range } from './components/slider/Range';
+
+export { ProgressLine } from './components/progress/ProgressLine';
+export { ProgressCircle } from './components/progress/ProgressCircle';

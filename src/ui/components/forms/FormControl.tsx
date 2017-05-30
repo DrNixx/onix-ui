@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { PropTypes } from 'prop-types';
 import * as classNames from 'classnames';
 import * as warning from 'warning';
 import { SIZE_MAP } from '../StyleConfig';
@@ -38,7 +39,7 @@ export class FormControl extends React.Component<FormControlProps, {}> {
     }
 
     public static contextTypes = {
-        $bs_formGroup: React.PropTypes.object,
+        $bs_formGroup: PropTypes.object,
     };
 
     public static Static = FormControlStatic;
