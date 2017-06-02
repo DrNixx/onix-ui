@@ -32,25 +32,33 @@ export class Range extends SliderBase<RangeProps, RangeState> {
 
     private _getPointsCache;
 
+    private startValue: number;
+
+    private startPosition: number;
+
     constructor(props: RangeProps) {
         super(props);
+
+        this.state = {
+            handle: null,
+            recent: 0,
+            bounds: [0],
+        };
 
         const { count, min, max } = props;
         const initialValue = Array.apply(null, Array(count + 1)).map(() => min);
         const defaultValue = 'defaultValue' in props ? props.defaultValue : initialValue;
-        const value = props.value !== undefined ? props.value : defaultValue;
+        const value = props.value ? props.value : defaultValue;
         const bounds = value.map(v => this.trimAlignValue(v));
         const recent = bounds[0] === max ? 0 : bounds.length - 1;
 
-        this.state = {
-            handle: null,
-            recent,
-            bounds,
-        };
+        
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!('value' in nextProps || 'min' in nextProps || 'max' in nextProps)) return;
+        if (!('value' in nextProps || 'min' in nextProps || 'max' in nextProps)) {
+            return;
+        }
 
         const { bounds } = this.state;
         const value = nextProps.value || bounds;
@@ -72,7 +80,7 @@ export class Range extends SliderBase<RangeProps, RangeState> {
         const isNotControlled = !('value' in props);
         if (isNotControlled) {
             this.setState(state);
-        } else if (state.handle !== undefined) {
+        } else if (state.handle) {
             this.setState({ 
                 ...this.state,
                 handle: state.handle 
@@ -84,15 +92,15 @@ export class Range extends SliderBase<RangeProps, RangeState> {
         props.onChange(changedValue);
     }
 
-    onStart = (position): void => {
+    onStart = (position: number): void => {
         const props = this.props;
         const state = this.state;
         const bounds = this.getValue();
         props.onBeforeChange(bounds);
 
         const value = this.calcValueByPos(position);
-        //this.startValue = value;
-        //this.startPosition = position;
+        this.startValue = value;
+        this.startPosition = position;
 
         const closestBound = this.getClosestBound(value);
         const boundNeedMoving = this.getBoundNeedMoving(value, closestBound);
@@ -284,7 +292,7 @@ export class Range extends SliderBase<RangeProps, RangeState> {
 
     ensureValueNotConflict(val, allowCross?: boolean) {
         const { handle, bounds } = this.state;
-        /* eslint-disable eqeqeq */
+        
         if (!allowCross && handle != null) {
             if (handle > 0 && val <= bounds[handle - 1]) {
                 return bounds[handle - 1];
@@ -294,7 +302,7 @@ export class Range extends SliderBase<RangeProps, RangeState> {
                 return bounds[handle + 1];
             }
         }
-        /* eslint-enable eqeqeq */
+        
         return val;
     }
 

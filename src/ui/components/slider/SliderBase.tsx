@@ -214,7 +214,7 @@ export abstract class SliderBase<P extends SliderBaseProps, S extends SliderBase
         return value;
     }
 
-    calcValueByPos(position) {
+    calcValueByPos(position: number) {
         const pixelOffset = position - this.getSliderStart();
         const nextValue = this.trimAlignValue(this.calcValue(pixelOffset));
         return nextValue;
