@@ -111,7 +111,7 @@ export class Slider extends SliderBase<SliderProps, SliderState> {
     }
 
     trimAlignValue(v, nextProps = {}) {
-        const mergedProps = { ...this.props, ...nextProps };
+        const mergedProps: SliderProps = { ...this.props, ...nextProps };
         const { min, max } = mergedProps;
         const val = ensureValueInRange(v, min, max);
         return this.ensureValuePrecision(val, mergedProps);

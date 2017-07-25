@@ -20,6 +20,7 @@ export type RenderResult = {
 }
 
 export interface SliderBaseProps {
+    children?: React.ReactNode,
     min?: number,
     max?: number,
     step?: number,

@@ -284,13 +284,13 @@ export class Range extends SliderBase<RangeProps, RangeState> {
     }
 
     trimAlignValue(v, nextProps = {}) {
-        const mergedProps = { ...this.props, ...nextProps };
+        const mergedProps: RangeProps = { ...this.props, ...nextProps };
         const valInRange = ensureValueInRange(v, mergedProps.min, mergedProps.max);
         const valNotConflict = this.ensureValueNotConflict(valInRange, mergedProps.allowCross);
         return this.ensureValuePrecision(valNotConflict, mergedProps);
     }
 
-    ensureValueNotConflict(val, allowCross?: boolean) {
+    ensureValueNotConflict(val: number, allowCross?: boolean) {
         const { handle, bounds } = this.state;
         
         if (!allowCross && handle != null) {
