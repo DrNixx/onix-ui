@@ -5,7 +5,7 @@ export { Button } from './components/buttons/Button';
 export { Form } from './components/forms/Form';
 export { FormGroup } from './components/forms/FormGroup';
 export { ControlLabel } from './components/forms/ControlLabel';
-export { FormControl } from './components/forms/FormControl';
+export { FormControl, FormControlProps } from './components/forms/FormControl';
 export { HelpBlock } from './components/forms/HelpBlock';
 export { Checkbox } from './components/forms/Checkbox';
 export { InputGroup } from './components/forms/InputGroup';
