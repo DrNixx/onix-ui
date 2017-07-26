@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { copy } from '../../CopyToClipboard';
-import { Intl } from '../../../Intl';
+import { Intl } from 'onix-core';
+import { registerStrings } from '../../../Intl';
 import { InputGroup } from './InputGroup';
 import { InputGroupAddon } from './InputGroupAddon';
 import { FormControl, FormControlProps } from './FormControl';
@@ -21,6 +22,8 @@ export class TextWithCopy extends React.Component<TextWithCopyProps, TextWithCop
      */
     constructor(props: TextWithCopyProps) {
         super(props);
+
+        registerStrings();
 
         this.state = { 
             className: null,
