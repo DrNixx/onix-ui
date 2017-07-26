@@ -1,9 +1,20 @@
-import { Intl } from 'onix-core';
+import { Intl as IntlCore } from 'onix-core';
 
-Intl.registerStrings('forms', {
-    'ru-ru': {
-        copy_to_clipboard: "Копировать строку в буфер обмена",
+var intlInitialized = false;
+
+export function registerStrings() {
+    if (!intlInitialized) {
+        
+        IntlCore.registerStrings('forms', {
+            'ru-ru': {
+                copy_to_clipboard: "Копировать строку в буфер обмена",
+            },
+
+            'en-us': {
+                copy_to_clipboard: "Copy string to clipboard",
+            }
+        });
+
+        intlInitialized = true;
     }
-});
-
-export { Intl } from 'onix-core';
+}
