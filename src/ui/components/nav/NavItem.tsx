@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { createChainedFunction } from '../../Functions';
+import { createChainedFunction } from 'onix-core';
 import { SafeAnchor } from '../SafeAnchor';
 import { TabSelectHandler } from './ContextTypes';
 
-interface NavItemProps  {
+export interface NavItemProps  {
     className?: string,
     style?: React.CSSProperties,
     active?: boolean,
@@ -42,20 +42,14 @@ export class NavItem extends React.Component<NavItemProps, {}> {
     }
 
     render() {
-        const { active, disabled, onClick, className, style, ...props } = this.props;
+        const { active, disabled, onClick, className, style, onSelect, eventKey, activeKey, activeHref, role, ...props } = this.props;
+        let arole = role;
 
-        delete props.onSelect;
-        delete props.eventKey;
-
-        // These are injected down by `<Nav>` for building `<SubNav>`s.
-        delete props.activeKey;
-        delete props.activeHref;
-
-        if (!props.role) {
+        if (!arole) {
             if (props.href === '#') {
-                props.role = 'button';
+                arole = 'button';
             }
-        } else if (props.role === 'tab') {
+        } else if (arole === 'tab') {
             props['aria-selected'] = active;
         }
 
@@ -67,6 +61,7 @@ export class NavItem extends React.Component<NavItemProps, {}> {
                 style={style}>
                 <SafeAnchor
                     {...props}
+                    role={arole}
                     disabled={disabled}
                     onClick={handler} />
             </li>

@@ -6,7 +6,7 @@ import { TabContextType, TabSelectHandler } from './ContextTypes';
 const TAB = 'tab';
 const PANE = 'pane';
 
-interface TabContainerProps {
+export interface TabContainerProps {
     id: string,
 
     className: string,
@@ -41,7 +41,7 @@ interface TabContainerProps {
     activeKey?: string | number,
 }
 
-interface TabContainerState {
+export interface TabContainerState {
     activeKey: string | number;
 }
 
@@ -79,7 +79,11 @@ export class TabContainer extends React.Component<TabContainerProps, TabContaine
     }
 
     private onSelect = (key: string | number) => {
+        const { onSelect } = this.props;
         this.setState({activeKey: key});
+        if (onSelect) {
+            onSelect(key);
+        }
     }
 
     getChildContext() {
@@ -88,12 +92,10 @@ export class TabContainer extends React.Component<TabContainerProps, TabContaine
         const id = this.getId(this.props);
         const getId = generateChildId || ((key, type) => (id ? `${id}-${type}-${key}` : null));
 
-        const handler = onSelect || this.onSelect;
-
         return {
             $bs_tabContainer: {
                 activeKey,
-                onSelect: handler,
+                onSelect: this.onSelect,
                 getTabId: key => getId(key, TAB),
                 getPaneId: key => getId(key, PANE),
             },
@@ -103,7 +105,7 @@ export class TabContainer extends React.Component<TabContainerProps, TabContaine
     render() {
         const { children, ...props } = this.props;
         const { generateChildId, onSelect, activeKey, ...otherProps } = props;
-
+        
         return React.cloneElement(React.Children.only(children), otherProps);
     }
 }

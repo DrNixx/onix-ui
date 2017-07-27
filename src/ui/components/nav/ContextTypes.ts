@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-export type TabSelectHandler = (key: string | number, event: React.SyntheticEvent<any>) => void;
+export type TabSelectHandler = (key: string | number, event?: React.SyntheticEvent<any>) => void;
 
-type TabContentType = {
+export type TabContentType = {
     animation?: boolean | React.ReactType,
     activeKey?: string | number,
     unmountOnExit?: boolean,
@@ -11,7 +11,7 @@ type TabContentType = {
     exiting: boolean,
 }
 
-type TabContainerType = {
+export type TabContainerType = {
     getId?: Function,
     unmountOnExit?: boolean,
     activeKey?: string | number,

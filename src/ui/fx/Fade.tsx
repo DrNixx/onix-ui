@@ -1,8 +1,8 @@
 import * as React from 'react';
-import Transition from 'react-overlays/lib/Transition';
+import Transition, { ENTERED, ENTERING } from 'react-transition-group/Transition';
 import * as classNames from 'classnames';
 
-interface FadeProps {
+export interface FadeProps {
     /**
      * Component class name
      */
@@ -17,12 +17,6 @@ interface FadeProps {
      * Unmount the component (remove it from the DOM) when it is faded out
      */
     unmountOnExit?: boolean,
-
-    /**
-     * Run the fade in animation when the component mounts, if it is initially
-     * shown
-     */
-    transitionAppear?: boolean,
 
     /**
      * Duration of the fade animation in milliseconds, to ensure that finishing
@@ -57,25 +51,39 @@ interface FadeProps {
     onExited?: Function,
 }
 
+export interface FadeState {
+    in: boolean
+}
+
 export class Fade extends React.Component<FadeProps, {}> {
     public static defaultProps: FadeProps = {
         in: false,
         timeout: 300,
         unmountOnExit: false,
-        transitionAppear: false,
     }
     
     constructor(props: FadeProps) {
         super(props);
+
+        this.state = {
+            in: props.in
+        }
     }
 
     render() {
+
+        const className = classNames(
+            this.props.className, 
+            'fade',
+            {
+                ['in']: this.props.in
+            }
+        );
+
         return (
             <Transition
                 {...this.props}
-                className={classNames(this.props.className, 'fade')}
-                enteredClassName="in"
-                enteringClassName="in"
+                className={className}
             />
         );
     }

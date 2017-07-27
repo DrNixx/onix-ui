@@ -218,19 +218,21 @@ export class TabPane extends React.Component<TabPaneProps, {}> {
             elementProps['aria-labelledby'] = tabContainer.getTabId(eventKey);
         }
 
+        const paneClass = classNames(className, classes);
+
         const pane = (
             <div {...elementProps}
                 role="tabpanel"
                 aria-hidden={!active}
-                className={classNames(className, classes)}>{children}</div>
+                className={paneClass}>{children}</div>
         );
 
         if (Transition) {
             const exiting = tabContent && tabContent.exiting;
-
             return (
                 <Transition
                     in={active && !exiting}
+                    className={paneClass}
                     onEnter={createChainedFunction(this.handleEnter, onEnter)}
                     onEntering={onEntering}
                     onEntered={onEntered}

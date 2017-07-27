@@ -1,6 +1,7 @@
 /node_modules
 /samples
 /test
+/public
 /tsconfig.json
 /*.config.js
 /*.js.map

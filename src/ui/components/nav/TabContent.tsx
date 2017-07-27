@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import * as classNames from 'classnames';
 import { TabContextType } from './ContextTypes';
 
-interface TabContentProps {
+export interface TabContentProps {
     className?: string,
 
     componentClass?: React.ReactType,
@@ -21,7 +21,7 @@ interface TabContentProps {
     unmountOnExit?: boolean,
 }
 
-interface TabContentState {
+export interface TabContentState {
     activeKey: string | number,
     activeChild: any
 }
