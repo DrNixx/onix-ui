@@ -7,7 +7,7 @@ import { NavItem } from './NavItem';
 import ElementChildren from '../ElementChildren'
 import { TabSelectHandler } from './ContextTypes';
 
-interface TabsProps  {
+export interface TabsProps  {
     /**
      * Mark the Tab with a matching `eventKey` as active.
      *

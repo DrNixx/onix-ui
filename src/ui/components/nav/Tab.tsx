@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { TabPane, TabPaneProps } from './TabPane';
 
-interface TabProps extends TabPaneProps {
+export interface TabProps extends TabPaneProps {
     disabled?: boolean,
 
     title?: React.ReactType,

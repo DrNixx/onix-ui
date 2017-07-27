@@ -8,7 +8,7 @@ import ElementChildren from '../ElementChildren';
 import { createChainedFunction } from 'onix-core/built/fn/utils/index';
 import { TabSelectHandler } from './ContextTypes';
 
-interface NavProps  {
+export interface NavProps  {
     className?: string,
     style?: React.CSSProperties,
 

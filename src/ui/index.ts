@@ -13,6 +13,10 @@ export { InputGroupAddon } from './components/forms/InputGroupAddon';
 export { InputGroupButton } from './components/forms/InputGroupButton';
 export { TextWithCopy } from './components/forms/TextWithCopy';
 
+export { Nav, NavProps } from './components/nav/Nav';
+export { Tab, TabProps } from './components/nav/Tab';
+export { Tabs, TabsProps } from './components/nav/Tabs';
+
 export { Slider } from './components/slider/Slider';
 export { Range } from './components/slider/Range';
 
