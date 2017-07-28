@@ -1,6 +1,9 @@
 export { Icon } from './components/Icon';
 export { Row } from './components/Row';
 export { Col } from './components/Col';
+
+export { SafeAnchor } from './components/SafeAnchor';
+
 export { Button } from './components/buttons/Button';
 export { Form } from './components/forms/Form';
 export { FormGroup } from './components/forms/FormGroup';
