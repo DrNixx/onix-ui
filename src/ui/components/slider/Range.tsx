@@ -1,8 +1,10 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import * as warning from 'warning';
+import toSafeInteger = require('lodash/toSafeInteger');
+import clamp = require('lodash/clamp');
+import range = require('lodash/range');
 import { pauseEvent } from '../../EventUtils';
-import { intVal, isValueOutOfRange, ensureValueInRange } from 'onix-core/built/fn/number/index';
 import { SliderBase, SliderBaseProps, SliderBaseState, RenderResult } from './SliderBase';
 import { Track } from './Track';
 
@@ -70,7 +72,7 @@ export class Range extends SliderBase<RangeProps, RangeState> {
             bounds: nextBounds 
         });
 
-        if (bounds.some(v => isValueOutOfRange(v, nextProps.min, nextProps.max))) {
+        if (bounds.some(v => !range(v, nextProps.min, nextProps.max))) {
             this.props.onChange(nextBounds);
         }
     }
@@ -222,7 +224,7 @@ export class Range extends SliderBase<RangeProps, RangeState> {
     pushSurroundingHandles(bounds, handle, originalValue) {
         const { pushable } = this.props;
         const value = bounds[handle];
-        const threshold: number = pushable ? intVal(pushable) : 0;
+        const threshold: number = pushable ? toSafeInteger(pushable) : 0;
 
         let direction = 0;
         if (bounds[handle + 1] - value < threshold) {
@@ -271,7 +273,7 @@ export class Range extends SliderBase<RangeProps, RangeState> {
         const nextHandle = handle + direction;
         const nextValue = points[nextPointIndex];
         const { pushable } = this.props;
-        const threshold: number = pushable ? intVal(pushable) : 0;
+        const threshold: number = pushable ? toSafeInteger(pushable) : 0;
         
         const diffToNext = direction * (bounds[nextHandle] - nextValue);
         if (!this.pushHandle(bounds, nextHandle, direction, threshold - diffToNext)) {
@@ -285,7 +287,7 @@ export class Range extends SliderBase<RangeProps, RangeState> {
 
     trimAlignValue(v, nextProps = {}) {
         const mergedProps: RangeProps = { ...this.props, ...nextProps };
-        const valInRange = ensureValueInRange(v, mergedProps.min, mergedProps.max);
+        const valInRange = clamp(v, mergedProps.min, mergedProps.max);
         const valNotConflict = this.ensureValueNotConflict(valInRange, mergedProps.allowCross);
         return this.ensureValuePrecision(valNotConflict, mergedProps);
     }

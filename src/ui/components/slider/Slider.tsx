@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { isValueOutOfRange, ensureValueInRange } from 'onix-core/built/fn/number/index';
+import clamp = require('lodash/clamp');
+import range = require('lodash/range');
 import { pauseEvent } from '../../EventUtils';
 import { SliderBase, SliderBaseProps, SliderBaseState, RenderResult } from './SliderBase';
 import { Track } from './Track';
@@ -44,7 +45,7 @@ export class Slider extends SliderBase<SliderProps, SliderState> {
         });
 
         const { min, max } = nextProps;
-        if (isValueOutOfRange(value, min, max)) {
+        if (!range(value, min, max)) {
             this.props.onChange(nextValue);
         }
     }
@@ -113,7 +114,7 @@ export class Slider extends SliderBase<SliderProps, SliderState> {
     trimAlignValue(v, nextProps = {}) {
         const mergedProps: SliderProps = { ...this.props, ...nextProps };
         const { min, max } = mergedProps;
-        const val = ensureValueInRange(v, min, max);
+        const val = clamp(v, min, max);
         return this.ensureValuePrecision(val, mergedProps);
     }
 
