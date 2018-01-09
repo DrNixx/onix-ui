@@ -8,124 +8,94 @@ export interface ColProps  {
     componentClass?: React.ReactType,
 
     /**
-     * The number of columns you wish to span for Extra small devices Phones (<768px)
-     * class-prefix `col-xs-`
+     * The number of columns you wish to span for Extra small devices Phones (<576px)
+     * class-prefix `col-`
      */
-    xs?: number,
+    xs?: number | 'auto',
 
     /**
-     * The number of columns you wish to span for Small devices Tablets (≥768px)
+     * The number of columns you wish to span for Small devices Tablets (≥576px)
      * class-prefix `col-sm-`
      */
-    sm?: number,
+    sm?: number | 'auto',
 
     /**
-     * The number of columns you wish to span for Medium devices Desktops (≥992px)
+     * The number of columns you wish to span for Medium devices Desktops (≥768px)
      * class-prefix `col-md-`
      */
-    md?: number,
+    md?: number | 'auto',
     
     /**
-     * The number of columns you wish to span for Large devices Desktops (≥1200px)
+     * The number of columns you wish to span for Large devices Desktops (≥992px)
      * class-prefix `col-lg-`
      */
-    lg?: number,
+    lg?: number | 'auto',
 
     /**
-     * Hide column on Extra small devices Phones
-     * adds class `hidden-xs`
+     * The number of columns you wish to span for Extra large devices Desktops (≥1200px)
+     * class-prefix `col-lg-`
      */
-    xsHidden?: boolean,
-
-    /**
-     * Hide column on Small devices Tablets
-     * adds class `hidden-sm`
-     */
-    smHidden?: boolean,
-
-    /**
-     * Hide column on Medium devices Desktops
-     * adds class `hidden-md`
-     */
-    mdHidden?: boolean,
-    
-    /**
-     * Hide column on Large devices Desktops
-     * adds class `hidden-lg`
-     */
-    lgHidden?: boolean,
+    xl?: number | 'auto',
 
     /**
      * Move columns to the right for Extra small devices Phones
-     * class-prefix `col-xs-offset-`
+     * class-prefix `offset-`
      */
     xsOffset?: number,
 
     /**
      * Move columns to the right for Small devices Tablets
-     * class-prefix `col-sm-offset-`
+     * class-prefix `offset-sm-`
      */
     smOffset?: number,
 
     /**
      * Move columns to the right for Medium devices Desktops
-     * class-prefix `col-md-offset-`
+     * class-prefix `offset-md-`
      */
     mdOffset?: number,
 
     /**
      * Move columns to the right for Large devices Desktops
-     * class-prefix `col-lg-offset-`
+     * class-prefix `offset-lg-`
      */
     lgOffset?: number,
+
+    /**
+     * Move columns to the right for Extra large devices Desktops
+     * class-prefix `offset-xl-`
+     */
+    xlOffset?: number,
     
     /**
      * Change the order of grid columns to the right for Extra small devices Phones
-     * class-prefix `col-xs-push-`
+     * class-prefix `order-`
      */
-    xsPush?: number,
+    xsOrder?: number | 'first',
 
     /**
      * Change the order of grid columns to the right for Small devices Tablets
-     * class-prefix `col-sm-push-`
+     * class-prefix `order-sm-`
      */
-    smPush?: number,
+    smOrder?: number | 'first',
     
     /**
      * Change the order of grid columns to the right for Medium devices Desktops
-     * class-prefix `col-md-push-`
+     * class-prefix `order-md-`
      */
-    mdPush?: number,
+    mdOrder?: number | 'first',
     
     /**
      * Change the order of grid columns to the right for Large devices Desktops
-     * class-prefix `col-lg-push-`
+     * class-prefix `order-lg-`
      */
-    lgPush?: number,
-    
-    /**
-     * Change the order of grid columns to the left for Extra small devices Phones
-     * class-prefix `col-xs-pull-`
-     */
-    xsPull?: number,
-    
-    /**
-     * Change the order of grid columns to the left for Small devices Tablets
-     * class-prefix `col-sm-pull-`
-     */
-    smPull?: number,
-    
-    /**
-     * Change the order of grid columns to the left for Medium devices Desktops
-     * class-prefix `col-md-pull-`
-     */
-    mdPull?: number,
+    lgOrder?: number | 'first',
 
     /**
-     * Change the order of grid columns to the left for Large devices Desktops
-     * class-prefix `col-lg-pull-`
+     * Change the order of grid columns to the right for Extra large devices Desktops
+     * class-prefix `order-xl-`
      */
-    lgPull?: number,
+    xlOrder?: number | 'first',
 }
 
 export class Col extends React.Component<ColProps, {}> {
@@ -147,24 +117,22 @@ export class Col extends React.Component<ColProps, {}> {
                 const propName = `${size}${propSuffix}`;
                 const propValue = props[propName];
 
+                const sizeTag = (size == 'xs') ? "" : `${size}-`;
+
                 if (propValue != null) {
-                    classes.push(`col-${size}${modifier}-${propValue}`);
+                    if ((modifier == "col") && (propValue == 0)) {
+                        classes.push(`${modifier}`);
+                    } else {
+                        classes.push(`${modifier}-${sizeTag}${propValue}`);
+                    }
                 }
 
                 delete props[propName];
             }
 
-            popProp('', '');
-            popProp('Offset', '-offset');
-            popProp('Push', '-push');
-            popProp('Pull', '-pull');
-
-            const hiddenPropName = `${size}Hidden`;
-            if (props[hiddenPropName]) {
-                classes.push(`hidden-${size}`);
-            }
-
-            delete props[hiddenPropName];
+            popProp('', 'col');
+            popProp('Offset', 'offset');
+            popProp('Order', 'order');
         });
 
         return (

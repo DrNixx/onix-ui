@@ -15,9 +15,10 @@ export const SIZE_MAP = {
   xs: 'xs',
 };
 
-export type DeviceSizeType = 'lg' | 'md' | 'sm' | 'xs';
+export type DeviceSizeType = 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 
 export const DEVICE_SIZES: DeviceSizeType[] = [
+  'xl',
   'lg',
   'md',
   'sm',
