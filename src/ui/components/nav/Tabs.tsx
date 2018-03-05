@@ -22,6 +22,8 @@ export interface TabsProps  {
 
     side?: 'left' | 'right';
 
+    triangle?: boolean,
+
     animation?: boolean,
 
     id?: string,
@@ -58,6 +60,7 @@ export class Tabs extends React.Component<TabsProps, {}> {
     public static defaultProps: TabsProps = {
         bsStyle: 'nav-tabs',
         animation: true,
+        triangle: false,
         unmountOnExit: false
     };
 
@@ -83,6 +86,7 @@ export class Tabs extends React.Component<TabsProps, {}> {
         const {
             id,
             side,
+            triangle,
             onSelect,
             animation,
             unmountOnExit,
@@ -94,9 +98,10 @@ export class Tabs extends React.Component<TabsProps, {}> {
         } = this.props;
 
         let classes = classNames(className, {
-            'tabbable': !!side,
-            'tabs-left': side == 'left',
-            'tabs-right': side == 'right'
+            'nav-tabs-linetriangle': triangle,
+            'nav-tabs-simple': !triangle,
+            'nav-tabs-left': side == 'left',
+            'nav-tabs-right': side == 'right'
         });
 
         return (
@@ -104,10 +109,9 @@ export class Tabs extends React.Component<TabsProps, {}> {
                 id={id}
                 activeKey={activeKey}
                 onSelect={onSelect}
-                className={classes}
                 style={style}>
                 <div>
-                    <Nav {...props} role="tablist">
+                    <Nav className={classes} {...props} role="tablist">
                         {ElementChildren.map(children, this.renderTab)}
                     </Nav>
                     <TabContent animation={animation} unmountOnExit={unmountOnExit}>

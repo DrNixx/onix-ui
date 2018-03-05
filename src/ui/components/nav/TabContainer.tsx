@@ -9,7 +9,7 @@ const PANE = 'pane';
 export interface TabContainerProps {
     id: string,
 
-    className: string,
+    className?: string,
 
     style?: React.CSSProperties,
     

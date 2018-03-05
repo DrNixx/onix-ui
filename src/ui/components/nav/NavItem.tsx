@@ -55,12 +55,18 @@ export class NavItem extends React.Component<NavItemProps, {}> {
 
         const handler = createChainedFunction(onClick, this.handleClick);
 
+        const linkClasses = {
+            ['active']: active,
+            ['show']: active
+        };
+
         return (
             <li role="presentation"
-                className={classNames(className, { active, disabled })}
+                className={classNames(className, "nav-item", { disabled })}
                 style={style}>
                 <SafeAnchor
                     {...props}
+                    className={classNames("nav-link", linkClasses)}
                     role={arole}
                     disabled={disabled}
                     onClick={handler} />

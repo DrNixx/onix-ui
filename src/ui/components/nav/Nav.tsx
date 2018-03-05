@@ -304,7 +304,7 @@ export class Nav extends React.Component<NavProps, {}> {
         classes[pullRightClassName] = pullRight;
         classes[pullLeftClassName] = pullLeft;
 
-        const mxClasses = classNames(className, classes);
+        const mxClasses = classNames(classes, className);
 
         return (
             <ul

@@ -76,7 +76,7 @@ export class Fade extends React.Component<FadeProps, {}> {
             this.props.className, 
             'fade',
             {
-                ['in']: this.props.in
+                ['show']: this.props.in
             }
         );
 
