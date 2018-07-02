@@ -1,6 +1,6 @@
 {
   "name": "onix-ui",
-  "version": "1.4.36",
+  "version": "1.5.37",
   "description": "Onix UI components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
