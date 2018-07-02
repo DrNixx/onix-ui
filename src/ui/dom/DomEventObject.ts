@@ -191,7 +191,7 @@ export class DomEventObject extends EventBaseObject {
             // https://bugzilla.mozilla.org/show_bug.cgi?id=691151
             isDefaultPrevented = nativeEvent['getPreventDefault']() ? true : false;
         } else if ('returnValue' in nativeEvent) {
-            isDefaultPrevented = nativeEvent.returnValue === false ? true : false;
+            isDefaultPrevented = nativeEvent['returnValue'] === false ? true : false;
         }
 
         this._isDefaultPrevented = isDefaultPrevented;

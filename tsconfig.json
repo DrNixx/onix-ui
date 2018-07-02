@@ -1,16 +1,13 @@
 {
     "compilerOptions": {
-        "declaration": true,
         "module": "commonjs",
         "target": "es5",
-        "outDir": "./built/",
-        "jsx": "react",
-        "lib": [
-            "dom",
-            "es2017"
-        ],
-        "sourceMap": true,
+        "lib": ["es2017", "dom"],
         "noImplicitAny": false,
+        "outDir": "./dist",
+        "jsx": "react",
+        "sourceMap": true,
+        "declaration": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true
     },

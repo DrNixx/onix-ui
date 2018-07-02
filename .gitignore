@@ -1,9 +1,7 @@
 node_modules
-built
+dist
 .vscode
 
 public/*.js
 public/*.js.map
-onix-ui.js
-onix-ui.js.map
 npm-debug.log

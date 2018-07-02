@@ -5,7 +5,7 @@ import * as classNames from 'classnames';
 import * as keycode from 'keycode';
 import * as warning from 'warning';
 import ElementChildren from '../ElementChildren';
-import { createChainedFunction } from 'onix-core/built/fn/utils/index';
+import { createChainedFunction } from 'onix-core/dist/fn/utils/index';
 import { TabSelectHandler } from './ContextTypes';
 
 export interface NavProps  {

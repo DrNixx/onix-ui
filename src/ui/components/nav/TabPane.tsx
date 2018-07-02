@@ -5,7 +5,7 @@ import * as warning from 'warning';
 import { TabContextType } from './ContextTypes';
 import { TabContent } from './TabContent';
 import { Fade } from '../../fx/Fade';
-import { createChainedFunction } from 'onix-core/built/fn/utils/index';
+import { createChainedFunction } from 'onix-core/dist/fn/utils/index';
 
 export interface TabPaneProps {
     className?: string;

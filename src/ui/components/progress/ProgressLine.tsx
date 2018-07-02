@@ -55,7 +55,7 @@ export class ProgressLine extends React.Component<ProgressLineProps, {}> {
             trailColor,
             trailWidth,
             children,
-            ...restProps,
+            ...restProps
         } = this.props;
 
         const pathStyle = {
