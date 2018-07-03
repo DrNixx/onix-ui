@@ -119,7 +119,12 @@ export class Nav extends React.Component<NavProps, {}> {
         const childrenArray = ElementChildren.toArray(children);
         const activeChildIndex = childrenArray.indexOf(activeChild);
 
-        const childNodes = ReactDOM.findDOMNode(this).children;
+        const node = ReactDOM.findDOMNode(this);
+        let childNodes: HTMLCollection = null;
+        if (node instanceof Element) {
+            childNodes = node.children;
+        }
+        
         const activeNode = childNodes && childNodes[activeChildIndex];
 
         if (!activeNode || !activeNode.firstChild) {

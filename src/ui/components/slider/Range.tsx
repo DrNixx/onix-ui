@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import * as warning from 'warning';
-import toSafeInteger = require('lodash/toSafeInteger');
-import clamp = require('lodash/clamp');
-import range = require('lodash/range');
+import toSafeInteger from 'lodash-es/toSafeInteger';
+import clamp from 'lodash-es/clamp';
+import range from 'lodash-es/range';
 import { pauseEvent } from '../../EventUtils';
 import { SliderBase, SliderBaseProps, SliderBaseState, RenderResult } from './SliderBase';
 import { Track } from './Track';
