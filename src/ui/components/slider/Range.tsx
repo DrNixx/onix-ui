@@ -79,6 +79,7 @@ export class Range extends SliderBase<RangeProps, RangeState> {
 
     onChange = (state): void => {
         const props = this.props;
+        const { onChange } = props;
         const isNotControlled = !('value' in props);
         if (isNotControlled) {
             this.setState(state);
@@ -91,15 +92,20 @@ export class Range extends SliderBase<RangeProps, RangeState> {
 
         const data = { ...this.state, ...state };
         const changedValue = data.bounds;
-        props.onChange(changedValue);
+        if (onChange) {
+            onChange(changedValue);
+        }
     }
 
     onStart = (position: number): void => {
-        const props = this.props;
+        const { onBeforeChange } = this.props;
         const state = this.state;
         const bounds = this.getValue();
-        props.onBeforeChange(bounds);
 
+        if (onBeforeChange) {
+            onBeforeChange(bounds);
+        }
+        
         const value = this.calcValueByPos(position);
         this.startValue = value;
         this.startPosition = position;
@@ -128,7 +134,11 @@ export class Range extends SliderBase<RangeProps, RangeState> {
         });
 
         this.removeDocumentEvents();
-        this.props.onAfterChange(this.getValue());
+
+        const { onAfterChange } = this.props;
+        if (onAfterChange) {
+            onAfterChange(this.getValue());
+        }
     }
 
     onMove = (e, position): void => {

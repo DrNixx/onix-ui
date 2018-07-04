@@ -1,6 +1,6 @@
 {
   "name": "onix-ui",
-  "version": "1.4.36",
+  "version": "1.5.37",
   "description": "Onix UI components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,7 @@
     "classnames": "^2.2.6",
     "keycode": "^2.2.0",
     "lodash-es": "^4.17.10",
-    "onix-core": "^1.2.31",
+    "onix-core": "^1.6.39",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

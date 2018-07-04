@@ -46,10 +46,10 @@ export interface SliderBaseState {
 function noop() {}
 
 export abstract class SliderBase<P extends SliderBaseProps, S extends SliderBaseState> extends React.Component<P, S> {
-    private onTouchMoveListener: EventListener;
-    private onTouchUpListener: EventListener;
-    private onMouseMoveListener: EventListener;
-    private onMouseUpListener: EventListener;
+    private onTouchMoveListener: EventListener = null;
+    private onTouchUpListener: EventListener = null;
+    private onMouseMoveListener: EventListener = null;
+    private onMouseUpListener: EventListener = null;
 
     static defaultProps: SliderBaseProps = {
         prefixCls: 'rc-slider',
