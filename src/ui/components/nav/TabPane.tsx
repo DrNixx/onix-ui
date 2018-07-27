@@ -84,10 +84,6 @@ export class TabPane extends React.Component<TabPaneProps, {}> {
         }),
     }
 
-    private static childContextTypes = {
-        $bs_tabContainer: PropTypes.oneOf([null]),
-    }
-
     constructor(props: TabPaneProps, context: TabContextType) {
         super(props, context);
 
