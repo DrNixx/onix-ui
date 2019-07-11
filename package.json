@@ -1,6 +1,6 @@
 {
   "name": "onix-ui",
-  "version": "1.5.39",
+  "version": "1.5.40",
   "description": "Onix UI components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,23 +26,23 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "keycode": "^2.2.0",
-    "lodash-es": "^4.17.11",
-    "onix-core": "^1.6.40",
-    "prop-types": "^15.6.2",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
+    "lodash-es": "^4.17.14",
+    "onix-core": "^1.6.41",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-overlays": "^0.8.3",
-    "warning": "^4.0.2"
+    "warning": "^4.0.3"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.1",
-    "@types/node": "^10.5.1",
-    "@types/react": "^16.4.18",
-    "@types/react-dom": "^16.0.9",
+    "@types/lodash-es": "^4.17.3",
+    "@types/node": "^10.14.12",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.4",
     "ts-loader": "^4.5.0",
     "typescript": "^2.9.2",
-    "webpack": "^4.23.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   }
 }
